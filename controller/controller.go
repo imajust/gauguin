@@ -23,27 +23,12 @@ type ImageSize struct {
 }
 
 type WebHook struct {
-	Action       string `json:"action"`
-	Route        string `json:"route"`
-	Template     string `json:"template"`
-	CacheControl string `json:"cache-control"`
-	Size         string `json:"size"`
+	Action       string            `json:"action"`
+	Route        string            `json:"route"`
+	Template     string            `json:"template"`
+	CacheControl string            `json:"cache-control"`
+	Size         string            `json:"size"`
 	Params       map[string]string `json:"params"`
-}
-
-// ConfigError shows an error at frontend if configuration has some errors
-func ConfigError(c *gin.Context) {
-	c.Data(
-		http.StatusOK,
-		"text/html; charset=utf-8",
-		[]byte(`
-			<h1>Error</h1>
-			<p>
-				An error occurred while trying to read <b>Gauguin</b> configuration. <br />
-				You can find more useful information in your server logs.
-			</p>
-		`),
-	)
 }
 
 // HandleRoutes handles all the Gauguin routes
@@ -139,12 +124,12 @@ func callHook(hook config.ResponseHook, action string, confRoute config.ConfigV0
 	client := &http.Client{}
 
 	body, _ := json.Marshal(WebHook{
-		Action: action,
-		Route: confRoute.Path,
-		Template: confRoute.Template,
+		Action:       action,
+		Route:        confRoute.Path,
+		Template:     confRoute.Template,
 		CacheControl: confRoute.CacheControl,
-		Size: confRoute.Size,
-		Params: params,
+		Size:         confRoute.Size,
+		Params:       params,
 	})
 
 	responseBody := bytes.NewBuffer(body)
